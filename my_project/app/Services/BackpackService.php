@@ -17,13 +17,31 @@ class BackpackService
     // Plutot que de faire plusieurs addItem, possibilité d'en ajouter plusieurs avec la même fonction
     public function addItemsToBackpack(AbstractItem ...$items): string
     {
-        if ($this->backpack->addItems(...$items)) {
-            $names = array_map(fn($i) => $i->getName(), $items);
-            return "Objets ajoutés : " . implode(", ", $names) . "\n";
+        $result = $this->backpack->addItems(...$items);
+
+        $message = '';
+        if (!empty($result['added'])) {
+            $message .= "Objets ajoutés : " . implode(", ", $result['added']) . "\n";
         }
-        return "Impossible d'ajouter certains objets (sac plein).\n";
+        if (!empty($result['failed'])) {
+            $message .= "Objets non ajoutés (sac plein) : " . implode(", ", $result['failed']) . "\n";
+        }
+
+        return $message;
     }
 
+    public function useItemFromBackpack(string $itemName, float $consumption): string
+    {
+        $items = $this->backpack->listItems();
+
+        foreach ($items as $item) {
+            if ($item->getName() === $itemName) {
+                return $item->useItem($consumption);
+            }
+        }
+
+        return "⚠️ Objet non trouvé dans le sac : " . $itemName . "\n";
+    }
     public function listBackpackContents(): string
     {
         $output = "📦 Contenu du sac :\n";

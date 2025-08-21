@@ -7,6 +7,7 @@ use App\Abstracts\AbstractItem;
 class Backpack
 {
     private float $maxVolume;
+    private float $maxWeight;
     private float $currentVolume = 0.0;
     private float $currentWeight = 0.0;
     private array $items = [];
@@ -14,21 +15,28 @@ class Backpack
     public function __construct(float $maxVolume = 30.0, float $maxWeight = 30.0)
     {
         $this->maxVolume = $maxVolume;
+        $this->maxWeight = $maxWeight;
     }
 
     // Logique d'ajout d'objets
-    public function addItems(AbstractItem ...$items): bool
+    public function addItems(AbstractItem ...$items): array
     {
-        foreach ($items as $item) {
-            if ($this->currentVolume + $item->getVolume() > $this->maxVolume || $this->currentWeight + $item->getWeight() > $this->maxVolume) {
-                return false;
-            }
+        $added = [];
+        $failed = [];
 
-            $this->items[] = $item;
-            $this->currentVolume += $item->getVolume();
-            $this->currentWeight += $item->getWeight();
+        foreach ($items as $item) {
+            if ($this->currentVolume + $item->getVolume() > $this->maxVolume || 
+                $this->currentWeight + $item->getWeight() > $this->maxWeight) {
+                $failed[] = $item->getName();
+            } else {
+                $this->items[] = $item;
+                $this->currentVolume += $item->getVolume();
+                $this->currentWeight += $item->getWeight();
+                $added[] = $item->getName();
+            }
         }
-        return true;
+
+        return ['added' => $added, 'failed' => $failed];
     }
 
 

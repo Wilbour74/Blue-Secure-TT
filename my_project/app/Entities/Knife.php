@@ -27,10 +27,10 @@ class Knife extends AbstractItem
             return "Ton couteau est inutilisable";
         } 
 
-        $this->wear - $consumption;
+        $wear = $this->wear - $consumption;
         if($this->wear < 0) $this->wear = 0;
 
-        return "Tu as utilisé ton couteau, il lui reste {$this->wear}%";
+        return "Tu as utilisé ton couteau, il lui reste {$wear}%";
     }
 
     public function getDescription(): string
