@@ -12,10 +12,10 @@ class Backpack
     private float $currentWeight = 0.0;
     private array $items = [];
 
-    public function __construct(float $maxVolume = 30.0, float $maxWeight = 30.0)
+    public function __construct(float $maxWeight = 30.0, float $maxVolume = 30.0)
     {
-        $this->maxVolume = $maxVolume;
         $this->maxWeight = $maxWeight;
+        $this->maxVolume = $maxVolume;
     }
 
     // Logique d'ajout d'objets

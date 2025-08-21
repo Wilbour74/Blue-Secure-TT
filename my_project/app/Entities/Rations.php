@@ -28,7 +28,7 @@ class Rations extends AbstractItem
         $this->quantity -= $consumption;
         if ($this->quantity < 0) $this->quantity = 0;
 
-        return "Tu as consommé {$this->consumption} ration de survie . Il en reste t'en reste {$this->quantity}.";
+        return "Tu as consommé {$consumption} ration de survie . Il en reste t'en reste {$this->quantity}.";
     }
 
     public function getDescription(): string

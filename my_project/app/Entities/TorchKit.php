@@ -10,11 +10,11 @@ class TorchKit extends AbstractItem
 
     public function __construct(string $name, float $weight, float $volume, int $quantity)
     {
-        parent::__construct($name, $weight);
+        parent::__construct($name, $weight, $volume);
         $this->quantity = $quantity;
     }
 
-    public function useItem(int $consumption = 1): string
+    public function useItem(float $consumption = 1): String
     {
         if ($this->quantity >= $consumption) {
             $this->quantity -= $consumption;
@@ -25,7 +25,7 @@ class TorchKit extends AbstractItem
 
     public function getDescription(): string
     {
-        return "Matériaux nécessaires pour fabriquer des torches (amadou, bâtons, etc.)";
+        return "Matériaux nécessaires pour fabriquer des torches (bâtons, etc.)";
     }
 
     public function getQuantity(): int

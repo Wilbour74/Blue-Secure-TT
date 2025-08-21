@@ -30,7 +30,7 @@ class BackpackService
         return $message;
     }
 
-    public function useItemFromBackpack(string $itemName, float $consumption): string
+    public function useItemFromBackpack(string $itemName, float $consumption = 1): string
     {
         $items = $this->backpack->listItems();
 
@@ -40,11 +40,11 @@ class BackpackService
             }
         }
 
-        return "⚠️ Objet non trouvé dans le sac : " . $itemName . "\n";
+        return "Objet non trouvé dans le sac : " . $itemName . "\n";
     }
     public function listBackpackContents(): string
     {
-        $output = "📦 Contenu du sac :\n";
+        $output = "Contenu du sac :\n";
         foreach ($this->backpack->listItems() as $item) {
             $output .= "- " . $item->getName() 
                 . " (poids: " . $item->getWeight() 
