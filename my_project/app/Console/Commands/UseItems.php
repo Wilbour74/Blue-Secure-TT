@@ -14,7 +14,7 @@ use App\Entities\Rations;
 use App\Entities\SleepingBag as SacDeCouchage;
 use App\Entities\Tinder as Amadou;
 use App\Entities\TorchKit as MateriauxTorche;
-use App\Models\Backpack;
+use App\Entities\Backpack;
 use App\Services\BackpackService;
 
 class UseItems extends Command
@@ -77,7 +77,7 @@ class UseItems extends Command
         $this->line($service->useItemFromBackpack($rations->getName(),4));
         $this->line($service->useItemFromBackpack($sacDeCouchage->getName()));
         $this->line($service->useItemFromBackpack($amadou->getName(), 2));
-        //Ici on est donne volontairement plus qu'il y'en a pour verifier si le message d'erreur s'affiche
+        //Ici on donne volontairement plus qu'il y'en a pour verifier si le message d'erreur s'affiche
         $this->line($service->useItemFromBackpack($materiauxTorche->getName(), 6));
     }
 }

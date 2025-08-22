@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Entities;
 
 use App\Abstracts\AbstractItem;
 
@@ -25,10 +25,13 @@ class Backpack
         $failed = [];
 
         foreach ($items as $item) {
+            // Si l'ajout dépasse les limites, on refuse l'objet
             if ($this->currentVolume + $item->getVolume() > $this->maxVolume || 
                 $this->currentWeight + $item->getWeight() > $this->maxWeight) {
                 $failed[] = $item->getName();
-            } else {
+            }
+            // Sinon, on l'ajoute dans le tableau
+            else {
                 $this->items[] = $item;
                 $this->currentVolume += $item->getVolume();
                 $this->currentWeight += $item->getWeight();
@@ -53,6 +56,21 @@ class Backpack
     public function getCount(): int
     {
         return count($this->items);
+    }
+
+    public function listItemsJson(): array
+    {
+        return array_map(function($item) {
+            return [
+                'name' => $item->getName(),
+                'weight' => $item->getWeight(),
+                'volume' => $item->getVolume(),
+                'info' => $item->getDescription(),
+                'quantity' => method_exists($item, 'getQuantity')
+                ? $item->getQuantity()
+                : (method_exists($item, 'getWear') ? $item->getWear() : null),
+            ];
+        }, $this->items);
     }
 
     public function listItems(): array

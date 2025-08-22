@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Backpack;
+use App\Entities\Backpack;
 use App\Abstracts\AbstractItem;
 
 class BackpackService

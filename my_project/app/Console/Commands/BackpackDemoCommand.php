@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Backpack;
+use App\Entities\Backpack;
 use App\Services\BackpackService;
 use App\Entities\WaterBottle as Gourde;
 use App\Entities\Knife as Couteau;
