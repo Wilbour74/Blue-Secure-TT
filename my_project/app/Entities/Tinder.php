@@ -23,8 +23,24 @@ class Tinder extends AbstractItem
         return "Tu n’as plus d’amadou !";
     }
 
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
     public function getDescription(): string
     {
         return "Petits morceaux d’amadou pour allumer un feu.";
+    }
+
+    public function getItem() : array
+    {
+        return[ 
+            "type" => "Amadou",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+            "quantity" => $this->getQuantity()
+        ];
     }
 }

@@ -36,4 +36,16 @@ class Rations extends AbstractItem
         return "C'est important d'avoir de quoi manger voici des rations de nouriture, il en reste actuellement {$this->quantity}";
     }
 
+    public function getItem() : array
+    {
+        return [
+            "type" => "Rations",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+            "quantity" => $this->getQuantity()
+        ];
+    }
+
 }

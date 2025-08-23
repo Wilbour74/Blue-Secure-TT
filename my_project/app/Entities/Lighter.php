@@ -14,7 +14,7 @@ class Lighter extends AbstractItem
         $this->wear = $wear;
     }
 
-    public function getWear(): int
+    public function getWear(): float
     {
         return $this->wear;
     }
@@ -32,5 +32,17 @@ class Lighter extends AbstractItem
     public function getDescription(): string
     {
         return "Ceci est un briquet tempête. Il lui reste {$this->wear} % d'usage";
+    }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Briquet",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+            "wear" => $this->getWear()
+        ];
     }
 }

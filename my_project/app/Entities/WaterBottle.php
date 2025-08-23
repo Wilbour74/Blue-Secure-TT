@@ -35,4 +35,16 @@ class WaterBottle extends AbstractItem
     {
         return "C'est une gourde tout a fait ordinaire, il reste actuellement {$this->quantity} cL";
     }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Gourde",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+            "quantity" => $this->getQuantity()
+        ];
+    }
 }

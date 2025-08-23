@@ -20,4 +20,15 @@ class SleepingBag extends AbstractItem
     {
         return "Sac de couchage confortable pour passer la nuit.";
     }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Sac de couchage",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+        ];
+    }
 }

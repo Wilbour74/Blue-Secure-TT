@@ -24,4 +24,15 @@ class Map extends AbstractItem
     {
         return "Ceci est une carte de la région.";
     }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Carte",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription())
+        ];
+    }
 }

@@ -36,4 +36,5 @@ abstract class AbstractItem implements ItemInterface{
 
     abstract public function useItem(float $quantity): String;
 
+    abstract public function getItem(): array;
 }

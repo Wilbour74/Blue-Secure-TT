@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/backpack', [BackpackController::class, 'show']);
+Route::post('/backpack/add', [BackpackController::class, 'add']);

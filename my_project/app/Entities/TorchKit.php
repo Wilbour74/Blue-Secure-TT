@@ -32,4 +32,16 @@ class TorchKit extends AbstractItem
     {
         return $this->quantity;
     }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Kit de Torche",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+            "quantity" => $this->getQuantity()
+        ];
+    }
 }

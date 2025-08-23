@@ -25,4 +25,15 @@ class Compass extends AbstractItem
     {
         return "Ceci est une boussole ordinaire";
     }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Boussole",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+        ];
+    }
 }

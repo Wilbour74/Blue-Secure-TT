@@ -33,4 +33,16 @@ class Kit extends AbstractItem
     {
         return $this->quantity;
     }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Trousse de secours",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+            "quality" => $this->getQuantity()
+        ];
+    }
 }

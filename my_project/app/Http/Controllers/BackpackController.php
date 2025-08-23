@@ -16,6 +16,7 @@ use App\Entities\TorchKit as MateriauxTorche;
 use App\Entities\Backpack;
 use App\Services\BackpackService;
 
+    
 class BackpackController extends Controller
 {
     public function show ()
@@ -34,5 +35,59 @@ class BackpackController extends Controller
             'volume' => $backpack->getVolume(),
         ]);
 
+    }
+
+    public function add(Request $request)
+    {
+        $data = $request->all();
+
+        switch ($data['type']) {
+            case 'Gourde':
+                $item = new Gourde($data['name'], $data['weight'], $data['volume'], $data['capacity']);
+                break;
+            case 'Couteau':
+                $item = new Couteau($data['name'], $data['weight'], $data['volume'], $data['durability']);
+                break;
+            case 'Boussole':
+                $item = new Boussole($data['name'], $data['weight'], $data['volume']);
+                break;
+            case 'Trousse':
+                $item = new Trousse($data['name'], $data['weight'], $data['volume'], $data['quantity']);
+                break;
+            case 'Briquet':
+                $item = new Briquet($data['name'], $data['weight'], $data['volume']);
+                break;
+            case 'Carte':
+                $item = new Carte($data['name'], $data['weight'], $data['volume']);
+                break;
+            case 'Rations':
+                $item = new Rations($data['name'], $data['weight'], $data['volume'], $data['quantity']);
+                break;
+            case 'SacDeCouchage':
+                $item = new SacDeCouchage($data['name'], $data['weight'], $data['volume']);
+                break;
+            case 'Amadou':
+                $item = new Amadou($data['name'], $data['weight'], $data['volume']);
+                break;
+            case 'MateriauxTorche':
+                $item = new MateriauxTorche($data['name'], $data['weight'], $data['volume'], $data['quantity']);
+                break;
+            default:
+                return response()->json(['error' => 'Type inconnu'], 400);
+        }
+
+        $backpack = new Backpack(15, 15);
+        $backpack->addItems($item);
+
+        return response()->json([
+            'message' => 'Objet ajouté',
+            'item' => [
+                'name' => $item->getName(),
+                'weight' => $item->getWeight(),
+                'volume' => $item->getVolume(),
+                'info' => $item->getDescription(),
+                'quantity' => method_exists($item, 'getQuantity') ? $item->getQuantity() : (method_exists($item, 'getWear') ? $item->getWear() : null), 
+            ]
+        ]);
     }
 }

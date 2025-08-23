@@ -14,7 +14,7 @@ class Knife extends AbstractItem
         $this->wear = 100;
     }
 
-    public function getWear(): int
+    public function getWear(): float
     {
         return $this->wear;
     }
@@ -36,5 +36,17 @@ class Knife extends AbstractItem
     public function getDescription(): string
     {
         return "Voici un couteau très ordinaire, il lui reste {$this->wear}%";
+    }
+
+    public function getItem() : array
+    {
+        return [
+            "type" => "Couteau",
+            "name" => strval($this->getName()),
+            "weight" => $this->getWeight(),
+            "volume" => $this->getVolume(),
+            "description" => strval($this->getDescription()),
+            "wear" => $this->getWear()
+        ];
     }
 }
