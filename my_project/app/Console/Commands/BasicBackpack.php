@@ -54,6 +54,13 @@ class BasicBackpack extends Command
         foreach ($items as $item) {
             $data = $item->getItem();
             $data['backpack_id'] = $backpack->id;
+
+            $newWeight = $backpack->weight + $item->getWeight();
+            $newVolume = $backpack->volume + $item->getVolume();
+            $backpack->update([
+                'weight' => $newWeight,
+                'volume' => $newVolume,
+            ]);
             $backpack->items()->create($data);
         }
 
