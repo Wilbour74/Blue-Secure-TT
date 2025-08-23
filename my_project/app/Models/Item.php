@@ -13,7 +13,8 @@ class Item extends Model
         'description',
         'weight',      
         'volume',    
-        'quantity',  
+        'quantity',
+        'quantity_cl',  
         'wear',      
         'backpack_id'
     ];

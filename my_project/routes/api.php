@@ -10,8 +10,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/backpack/{id}', [BackpackController::class, 'show']);
-Route::post('/backpack/add', [BackpackController::class, 'add']);
-Route::delete('/backpack/{id}', [BackpackController::class, 'delete']);
 
+Route::delete('/item/{id}', [ItemController::class, 'delete']);
+Route::post('/item/add/{id}', [ItemController::class, 'add']);
 Route::get('/item/{id}', [ItemController::class, 'index']);
 Route::patch('/item/use/{id}', [ItemController::class, 'useItem']);

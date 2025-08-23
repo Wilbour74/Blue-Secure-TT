@@ -39,6 +39,7 @@ class BackpackDemoCommand extends Command
         $couteau = new Couteau("Couteau de chasse", 0.5, 15, 100);
         $boussole = new Boussole("Boussole", 0.2, 0.1);
 
+        var_dump($gourde->getItem());
         // Ajout de multiples items dans le sac à dos
         $this->info($service->addItemsToBackpack($gourde, $couteau, $boussole));
 

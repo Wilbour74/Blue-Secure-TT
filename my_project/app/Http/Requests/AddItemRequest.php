@@ -28,6 +28,7 @@ class AddItemRequest extends FormRequest
             'volume' => 'required|numeric|min:0',
             'quantity' => 'nullable|numeric|min:0',
             'wear' => 'nullable|numeric|min:0|max:100',
+            'quantity_cl' => 'nullable|integer|min:0',
         ];
     }
 }
