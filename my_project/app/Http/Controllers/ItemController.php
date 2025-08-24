@@ -171,34 +171,31 @@ class ItemController extends Controller
                 return response()->json(['error' => 'Type inconnu'], 400);
         }
         
-        if($data->quantity == 0){
+        // Si l'item est épuisé ou s'il n'en reste plus impossible de l'utiliser
+        if (($data->quantity !== null && $data->quantity < 0) ||
+            ($data->wear !== null && $data->wear < 0) ||
+            ($data->quantity_cl !== null && $data->quantity_cl < 0)) {
+
             return response()->json([
-            'message' => 'Erreur',
-            'result' => $using,
-            'item' => $item->getItem(),
-            'quantity' => $data->quantity ?? null,
-            'wear' => $data->wear ?? null
+                'message' => 'Erreur : l\'item est épuisé ou cassé',
+                'result' => $using,
+                'item' => $item->getItem(),
+                'quantity' => $data->quantity ?? null,
+                'wear' => $data->wear ?? null,
+                'quantity_cl' => $data->quantity_cl ?? null
             ]);
         }
-        if($data->wear == 0){
-            return response()->json([
-            'message' => 'Erreur',
-            'result' => $using,
-            'item' => $item->getItem(),
-            'quantity' => $data->quantity ?? null,
-            'wear' => $data->wear ?? null
-            ]);
-        }
-        
-        // Mettre à jour la base de données
+
+        // Sinon le mettre à jour en base de données
          else{
             $data->save();
             return response()->json([
-            'message' => 'Item utilisé avec succès',
-            'result' => $using,
-            'item' => $item->getItem(),
-            'quantity' => $data->quantity ?? null,
-            'wear' => $data->wear ?? null
+                'itemId' => $data->id,
+                'message' => 'Item utilisé avec succès',
+                'result' => $using,
+                'item' => $data,
+                'quantity' => $data->quantity ?? null,
+                'wear' => $data->wear ?? null
             ]);
         } 
     }
