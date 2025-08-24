@@ -107,7 +107,6 @@ class ItemController extends Controller
     public function useItem(Request $request, $id)
     {
         $data = Item::findOrFail($id);
-
         // Interchanger les utilisations en fonction du type d'objet
         switch ($data->type) {
             case 'Gourde':
@@ -150,7 +149,7 @@ class ItemController extends Controller
                 $data->quantity = $item->getQuantity();
                 break;
 
-            case 'SacDeCouchage':
+            case 'Sac de couchage':
                 $item = new SacDeCouchage($data->name, $data->weight, $data->volume);
                 $using = $item->useItem();
                 break;
@@ -219,8 +218,12 @@ class ItemController extends Controller
         ]);
 
         // Supprimer l'item de la base de données
-        $item->delete();
+        if($item->delete()){
+            return response()->json(['message' => 'Objet supprimé']);
+        } else{
+            return response()->json(['message' => 'Erreur lors de la suppression de l\'objet'], 500);
+        }
 
-        return response()->json(['message' => 'Objet supprimé']);
+        
     }
 }
