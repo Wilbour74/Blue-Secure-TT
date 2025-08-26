@@ -7,15 +7,20 @@
       @use-item="useItem"
       @delete-item="deleteItem"
     />
+
+    <div class="flex justify-center mt-8 mb-8">
+      <button @click="emptyBackpack(backpack.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50">Vider le sac</button>
+    </div>
     <div class="text-center mt-8">
       <p>
-        Poids du Sac : {{ backpack.weight }} kg,
-        Poids Maximal : {{ backpack.max_weight }} kg,
-        Volume du sac : {{ backpack.volume }} L,
-        Volume Maximal : {{ backpack.max_volume }} L,
+        Poids du Sac : <strong>{{ backpack.weight }}</strong> kg,
+        Poids Maximal : <strong>{{ backpack.max_weight }}</strong> kg,
+        Volume du sac : <strong>{{ backpack.volume }}</strong> L,
+        Volume Maximal : <strong>{{ backpack.max_volume }}</strong> L,
+        <strong>{{ backpack.items.length }}</strong> objets dans le sac
       </p>
+    
     </div>
-
     <div v-if="apiResponse" class="flex justify-center mt-6 p-2 min-w-screen">
       <h1>Réponse de l'api : <strong>{{ apiResponse }}</strong></h1>
     </div>
@@ -35,7 +40,7 @@ import axios from 'axios'
 import AddItemForm from '@/Components/AddItemForm.vue'
 
 const props = defineProps({
-  backpack: Object
+  backpack: Object,
 })
 
 
@@ -68,8 +73,24 @@ function deleteItem(itemId) {
     })
 }
 
+function emptyBackpack(itemId) {
+  loadingId.value = itemId
+  axios.delete(`/api/backpack/empty/${itemId}`)
+    .then((response) => {
+      console.log(response.data)
+      apiResponse.value = response.data.message
+      router.reload({ only: ['backpack'] })
+    })
+    .finally(() => {
+      loadingId.value = null
+    })
+}
+
 function handleResponse(data) {
+  console.log(data)
   apiResponse.value = data
+  router.reload({ only: ['backpack'] })
+
 }
 </script>
 

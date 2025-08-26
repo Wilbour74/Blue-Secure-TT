@@ -37,6 +37,7 @@
 
   <div>
     <p class="text-xs text-center ">Un seul champ à remplir (ou aucun)</p>
+    <p class="text-xs text-center">(Gourde = CL) , (Couteau, Briquet = Usure) , (Sac de couchage, Carte, Boussole = Rien), (Reste = Quantité)</p>
     <div class="flex gap-2 mt-2 justify-between">
 
       <input type="number" v-model.number="form.quantity" min="1" placeholder="Qté"
@@ -69,7 +70,6 @@ import { reactive, ref } from 'vue'
 import axios from 'axios'
 import { router } from '@inertiajs/vue3'
 import { defineEmits } from 'vue'
-import { responsiveFontSizes } from '@mui/material'
 
 // Tableau des types disponibles
 const types = ['Gourde', 'Couteau', 'Boussole', 'Trousse', 'Briquet', 'Carte', 'Rations', 'SacDeCouchage', 'Amadou', 'MateriauxTorche']
@@ -93,6 +93,8 @@ function resetForm() {
   form.quantity_cl = null;
 }
 
+const emit = defineEmits(['add'])
+
 const response = ref(null)
 
 function submitForm() {
@@ -107,12 +109,12 @@ function submitForm() {
       form.quantity = 1
       form.wear = 0
       form.quantity_cl = null
-      form.weight = 0
-      form.volume = 0
+      form.weight = null
+      form.volume = null
       router.reload({ only: ['backpack'] })
     })
-    .catch(err => {
-      response.value = err.response?.data || err.message
-    })
+    .catch(
+     response.value = "Erreur"
+    )
 }
 </script>

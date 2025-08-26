@@ -51,6 +51,20 @@ class BackpackController extends Controller
             'backpack' => $backpack
         ]);
     }
+    
+    // Pour savoir si le sac existe déjà ou non
+    public function home()
+    {
+        $backpack = Sac::with('items')->findOrFail(1);
+        if (!$backpack) {
+            return Inertia::render('Backpack/Home', [
+                'Message' => "Sac à dos non trouvé"
+            ]);
+        }
+        return Inertia::render('Backpack/Home', [
+            'backpack' => $backpack
+        ]);
+    }
 
     // Obtenir les items d'un sac à dos en particulier
     public function show($id)
@@ -58,6 +72,30 @@ class BackpackController extends Controller
         $backpack = Sac::with('items')->findOrFail($id);
 
         return response()->json($backpack);
+    }
+
+    public function create(Request $request)
+    {
+        $backpackRequest = new Backpack($request->input('max_weight'), $request->input('max_volume'));
+        
+        $backpack = Sac::create([
+            'max_weight' => $backpackRequest->getMaxWeight(),
+            'max_volume' => $backpackRequest->getMaxVolume(),
+        ]);
+
+        return response()->json($backpack, 201);
+    }
+    
+    // Ici on vide seulement le sac
+    public function empty($id)
+    {
+        $backpack = Sac::findOrFail($id);
+        $backpack->items()->delete();
+        $backpack->weight = 0;
+        $backpack->volume = 0;
+        $backpack->save();
+
+        return response()->json(['message' => "Le sac a été vidé"]);
     }
 
 

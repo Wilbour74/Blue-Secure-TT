@@ -1,9 +1,12 @@
 <template>
-    <div class="flex flex-col items-center mt-6 w-full px-2">
+    <div  class="flex flex-col items-center mt-6 w-full px-2">
         <h2 class="text-2xl font-bold mb-4 text-center">Mon sac à dos</h2>
 
             <div class="overflow-x-auto w-full">
-                <table class="min-w-full border-dashed border border-gray-300 mt-16">
+                <div v-if="!items || items.length ===0" class="flex flex-col mt-16">
+                    <p class="text-bold text-center">Aucun objet dans le sac à dos</p>
+                </div>
+                <table v-else class="min-w-full border-dashed border border-gray-300 mt-16">
                 <thead>
                     <tr class="bg-gray-100">
                     <th class="px-3 py-2 text-center border-b border-gray-300">Type</th>

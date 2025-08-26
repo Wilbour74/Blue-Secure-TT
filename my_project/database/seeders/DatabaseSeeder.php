@@ -19,7 +19,20 @@ class DatabaseSeeder extends Seeder
         Item::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
+        // Supprimé et créer un nouveau sac puis ajouter des items aleatoires
+        
         $sac = Sac::find(1);
+
+        if(!$sac){
+            $sac = Sac::create([
+                'id' => 1,
+                'max_weight' => 15,
+                'max_volume' => 15,
+                'weight' => 0,
+                'volume' => 0,
+            ]);
+        }
+        
         // Logique de 10 éléments pour le sac
         for ($i = 0; $i < 10; $i++) {
             $item = Item::factory()->make();

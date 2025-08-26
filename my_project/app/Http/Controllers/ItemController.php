@@ -95,7 +95,15 @@ class ItemController extends Controller
                 'weight' => $newWeight,
                 'volume' => $newVolume,
             ]);
-            $backpack->items()->create($itemData);
+            
+            $newItem = $backpack->items()->create($itemData);
+
+            if (!$newItem) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Impossible d’ajouter l’objet au sac. Valeur d\'usure incorrecte'
+                ]);
+            }
             
             return response()->json([
                 'message' => 'Objet ajouté',

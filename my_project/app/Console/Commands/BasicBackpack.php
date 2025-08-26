@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Backpack;
+use App\Models\Backpack as Sac;
 use App\Models\Item;
 use Illuminate\Support\Facades\DB;
 use App\Entities\WaterBottle as Gourde;
@@ -34,7 +34,7 @@ class BasicBackpack extends Command
     {
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Item::truncate();
+        Sac::truncate();
         Backpack::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 

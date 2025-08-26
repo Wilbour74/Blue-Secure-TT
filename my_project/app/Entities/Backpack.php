@@ -42,6 +42,15 @@ class Backpack
         return ['added' => $added, 'failed' => $failed];
     }
 
+    public function getMaxWeight(): float
+    {
+        return $this->maxWeight;
+    }
+
+    public function getMaxVolume(): float
+    {
+        return $this->maxVolume;
+    }
 
     public function getWeight(): float
     {

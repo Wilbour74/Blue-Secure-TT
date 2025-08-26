@@ -8,9 +8,7 @@ use App\Http\Controllers\BackpackController;
 
 
 
-Route::get('/', function () {
-    return Inertia::render('Backpack/Home');
-});
+Route::get('/', [BackpackController::class, 'home'])->name('backpack.home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
