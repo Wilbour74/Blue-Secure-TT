@@ -9,12 +9,7 @@ use App\Http\Controllers\BackpackController;
 
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Backpack/Home');
 });
 
 Route::get('/dashboard', function () {

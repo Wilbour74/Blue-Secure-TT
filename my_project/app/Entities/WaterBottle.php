@@ -21,8 +21,12 @@ class WaterBottle extends AbstractItem
     // Action de boire une certaine quantité d'eau
     public function useItem(float $consumption): string
     {
-        if ($this->quantity_cl <= 0) {
+        if($this->quantity_cl <= 0) {
             return "Ta gourde est vide.";
+        }
+
+        if($consumption > $this->quantity_cl) {
+            return "Tu ne peux pas boire plus que {$this->quantity_cl} cL.";
         }
 
         $this->quantity_cl -= $consumption;

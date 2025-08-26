@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Mon sac à dos</h1>
 
     <BackpackTable
       :items="backpack.items"
@@ -8,9 +7,20 @@
       @use-item="useItem"
       @delete-item="deleteItem"
     />
+    <div class="text-center mt-8">
+      <p>
+        Poids du Sac : {{ backpack.weight }} kg,
+        Poids Maximal : {{ backpack.max_weight }} kg,
+        Volume du sac : {{ backpack.volume }} L,
+        Volume Maximal : {{ backpack.max_volume }} L,
+      </p>
+    </div>
 
-    <div v-if="apiResponse">
-      <p>{{ apiResponse }}</p>
+    <div v-if="apiResponse" class="flex justify-center mt-6 p-2 min-w-screen">
+      <h1>Réponse de l'api : <strong>{{ apiResponse }}</strong></h1>
+    </div>
+    <div v-else class="flex justify-center mt-6">
+      <p style="visibility:hidden">Pour garder l'espace</p>
     </div>
 
         <AddItemForm />
@@ -58,3 +68,4 @@ function deleteItem(itemId) {
     })
 }
 </script>
+

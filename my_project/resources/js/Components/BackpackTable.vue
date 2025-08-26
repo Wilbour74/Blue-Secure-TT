@@ -3,12 +3,13 @@
         <h2 class="text-2xl font-bold mb-4 text-center">Mon sac à dos</h2>
 
             <div class="overflow-x-auto w-full">
-                <table class="min-w-full border-collapse border border-gray-300">
+                <table class="min-w-full border-dashed border border-gray-300 mt-16">
                 <thead>
                     <tr class="bg-gray-100">
                     <th class="px-3 py-2 text-center border-b border-gray-300">Type</th>
                     <th class="px-3 py-2 text-center border-b border-gray-300">Nom</th>
-                    <th class="px-3 py-2 text-center border-b border-gray-300">Description</th>
+                    <th class="px-3 py-2 text-center border-b border-gray-300">Poids</th>
+                    <th class="px-3 py-2 text-center border-b border-gray-300">Volume</th>
                     <th class="px-3 py-2 text-center border-b border-gray-300">Quantité</th>
                     <th class="px-3 py-2 text-center border-b border-gray-300 hidden sm:table-cell">Quantité_CL</th>
                     <th class="px-3 py-2 text-center border-b border-gray-300 hidden sm:table-cell">Usure</th>
@@ -19,7 +20,8 @@
                     <tr v-for="item in items" :key="item.id" class="hover:bg-gray-50">
                     <td class="px-3 py-2 text-center border-b border-gray-200">{{ item.type }}</td>
                     <td class="px-3 py-2 text-center border-b border-gray-200">{{ item.name }}</td>
-                    <td class="px-3 py-2 text-center border-b border-gray-200">{{ item.description || '-' }}</td>
+                    <td class="px-3 py-2 text-center border-b border-gray-200">{{ item.weight }}</td>
+                    <td class="px-3 py-2 text-center border-b border-gray-200">{{ item.volume }}</td>
                     <td class="px-3 py-2 text-center border-b border-gray-200">{{ item.quantity ?? '-' }}</td>
                     <td class="px-3 py-2 text-center border-b border-gray-200 hidden sm:table-cell">{{ item.quantity_cl ?? '-' }}</td>
                     <td class="px-3 py-2 text-center border-b border-gray-200 hidden sm:table-cell">{{ item.wear ?? '-' }}</td>
@@ -44,7 +46,7 @@
                         >
                         {{ loadingId === item.id ? '...' : 'Supprimer' }}
                         </button>
-                    </td>
+                    </td> 
                     </tr>
                 </tbody>
                 </table>
