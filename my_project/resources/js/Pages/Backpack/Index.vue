@@ -23,7 +23,7 @@
       <p style="visibility:hidden">Pour garder l'espace</p>
     </div>
 
-        <AddItemForm />
+        <AddItemForm @submitted="handleResponse"/>
   </div>
 </template>
 
@@ -66,6 +66,10 @@ function deleteItem(itemId) {
     .finally(() => {
       loadingId.value = null
     })
+}
+
+function handleResponse(data) {
+  apiResponse.value = data
 }
 </script>
 

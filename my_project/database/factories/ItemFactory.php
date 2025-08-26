@@ -24,9 +24,9 @@ class ItemFactory extends Factory
         $base = [
             'name' => ucfirst($type) . ' ' . $this->faker->word(),
             'type' => $type,
-            'weight' => $this->faker->randomFloat(2, 0.1, 5),
-            'volume' => $this->faker->randomFloat(2, 0.1, 5),
-            'backpack_id' => Sac::factory(),
+            'weight' => $this->faker->randomFloat(1, 0.1, 5),
+            'volume' => $this->faker->randomFloat(1, 0.1, 5),
+            'backpack_id' => 1,
         ];
 
         switch ($type) {

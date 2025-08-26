@@ -185,6 +185,19 @@ class ItemController extends Controller
             ]);
         }
 
+        // Si le poids ou le volume dépasse les limites du sac à dos
+        if (($data->weight > $backpack->max_weight) ||
+            ($data->volume > $backpack->max_volume)) {
+
+            return response()->json([
+                'message' => 'Erreur : l\'item dépasse les limites du sac à dos',
+                'result' => $using,
+                'item' => $item->getItem(),
+                'weight' => $data->weight ?? null,
+                'volume' => $data->volume ?? null
+            ]);
+        }
+
         // Sinon le mettre à jour en base de données
          else{
             $data->save();

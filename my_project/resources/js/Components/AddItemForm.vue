@@ -62,21 +62,19 @@
         </button>
     </div>
 </form>
-
-
-
-  <div v-if="response">
-    <p>{{ response }}</p>
-  </div>
 </template>
 
 <script setup>
 import { reactive, ref } from 'vue'
 import axios from 'axios'
 import { router } from '@inertiajs/vue3'
+import { defineEmits } from 'vue'
+import { responsiveFontSizes } from '@mui/material'
 
 // Tableau des types disponibles
 const types = ['Gourde', 'Couteau', 'Boussole', 'Trousse', 'Briquet', 'Carte', 'Rations', 'SacDeCouchage', 'Amadou', 'MateriauxTorche']
+
+
 
 const form = reactive({
   type: types[0],
@@ -100,6 +98,7 @@ const response = ref(null)
 function submitForm() {
   axios.post('/api/item/add/1', form)
     .then(response => {
+      emit('add', response.data)
       response.value = response.data
       // Reset du formulaire si besoin
       form.name = ''
