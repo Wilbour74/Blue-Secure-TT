@@ -193,6 +193,8 @@ class ItemController extends Controller
             ]);
         }
 
+        $backpack = Sac::find($data->backpack_id);
+
         // Si le poids ou le volume dépasse les limites du sac à dos
         if (($data->weight > $backpack->max_weight) ||
             ($data->volume > $backpack->max_volume)) {
