@@ -88,7 +88,7 @@ function emptyBackpack(itemId) {
 
 function handleResponse(data) {
   console.log(data)
-  apiResponse.value = data
+  apiResponse.value = data.message
   router.reload({ only: ['backpack'] })
 
 }

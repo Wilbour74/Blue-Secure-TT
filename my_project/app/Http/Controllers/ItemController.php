@@ -29,56 +29,97 @@ class ItemController extends Controller
     public function add(AddItemRequest $request, $id)
     {
         $data = $request->validated();
-        // Boucle pour créer l'objet en fonction du type
+
+        // Vérification des champs obligatoires selon le type
         switch ($data['type']) {
             case 'Gourde':
+                if (!isset($data['quantity_cl'])) {
+                    return response()->json([
+                        'message' => "Le champ 'CL' est requis pour une gourde."
+                    ]);
+                }
                 $item = new Gourde($data['name'], $data['weight'], $data['volume'], $data['quantity_cl']);
                 break;
+
             case 'Couteau':
+                if (!isset($data['wear'])) {
+                    return response()->json([
+                        'message' => "Le champ 'Usure' est requis pour un couteau."
+                    ]);
+                }
                 $item = new Couteau($data['name'], $data['weight'], $data['volume'], $data['wear']);
                 break;
+
             case 'Boussole':
                 $item = new Boussole($data['name'], $data['weight'], $data['volume']);
                 break;
+
             case 'Trousse':
+                if (!isset($data['quantity'])) {
+                    return response()->json([
+                        'message' => "Le champ 'Qty' est requis pour une trousse."
+                    ]);
+                }
                 $item = new Trousse($data['name'], $data['weight'], $data['volume'], $data['quantity']);
                 break;
+
             case 'Briquet':
+                if (!isset($data['wear'])) {
+                    return response()->json([
+                        'message' => "Le champ 'Usure' est requis pour un briquet."
+                    ]);
+                }
                 $item = new Briquet($data['name'], $data['weight'], $data['volume'], $data['wear']);
                 break;
+
             case 'Carte':
                 $item = new Carte($data['name'], $data['weight'], $data['volume']);
                 break;
+
             case 'Rations':
+                if (!isset($data['quantity'])) {
+                    return response()->json([
+                        'message' => "Le champ 'Qty' est requis pour des rations."
+                    ]);
+                }
                 $item = new Rations($data['name'], $data['weight'], $data['volume'], $data['quantity']);
                 break;
+
             case 'SacDeCouchage':
                 $item = new SacDeCouchage($data['name'], $data['weight'], $data['volume']);
                 break;
+
             case 'Amadou':
                 $item = new Amadou($data['name'], $data['weight'], $data['volume']);
                 break;
+
             case 'MateriauxTorche':
+                if (!isset($data['quantity'])) {
+                    return response()->json([
+                        'message' => "Le champ 'quantity' est requis pour les matériaux de torche."
+                    ]);
+                }
                 $item = new MateriauxTorche($data['name'], $data['weight'], $data['volume'], $data['quantity']);
                 break;
+
             default:
                 return response()->json(['error' => 'Type inconnu'], 400);
         }
 
-        $backpack = Sac::findOrFail($id);
-        if(!$backpack){
+        // Vérifier que le sac existe
+        $backpack = Sac::find($id);
+        if (!$backpack) {
             return response()->json(['error' => 'Sac à dos non trouvé'], 404);
         }
 
-        
-        // Calculer le nouveau poids et volume du sac à dos
+        // Calcul du poids et volume
         $newWeight = $backpack->weight + $item->getWeight();
         $newVolume = $backpack->volume + $item->getVolume();
-        
+
         $itemData = $item->getItem();
         $itemData['backpack_id'] = $backpack->id;
 
-        // Si le poids ou bien le volume dépasse la capacité du sac on ne l'ajoute pas
+        // Vérif capacité
         if ($newWeight > $backpack->max_weight || $newVolume > $backpack->max_volume) {
             return response()->json([
                 'error' => 'Impossible d’ajouter : sac trop chargé',
@@ -88,29 +129,29 @@ class ItemController extends Controller
                 'max_volume' => $backpack->max_volume
             ], 400);
         }
-        // Sinon on met à jour le poids et le volume du sac on l'ajoute
-        else{
-            // Mise à jour du poids et du volume du sac à dos
-            $backpack->update([
-                'weight' => $newWeight,
-                'volume' => $newVolume,
-            ]);
-            
-            $newItem = $backpack->items()->create($itemData);
 
-            if (!$newItem) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Impossible d’ajouter l’objet au sac. Valeur d\'usure incorrecte'
-                ]);
-            }
-            
+        // Mise à jour du sac
+        $backpack->update([
+            'weight' => $newWeight,
+            'volume' => $newVolume,
+        ]);
+
+        // Ajout de l’item
+        $newItem = $backpack->items()->create($itemData);
+
+        if (!$newItem) {
             return response()->json([
-                'message' => 'Objet ajouté',
-                'item' => $data
+                'success' => false,
+                'message' => 'Impossible d’ajouter l’objet au sac. Valeur incorrecte'
             ]);
         }
+
+        return response()->json([
+            'message' => 'Objet ajouté',
+            'item' => $data
+        ]);
     }
+
 
     public function useItem(Request $request, $id)
     {

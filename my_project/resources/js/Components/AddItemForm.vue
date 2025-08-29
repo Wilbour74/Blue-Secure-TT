@@ -100,7 +100,7 @@ const response = ref(null)
 function submitForm() {
   axios.post('/api/item/add/1', form)
     .then(response => {
-      emit('add', response.data)
+      emit('submitted', response.data)
       response.value = response.data
       // Reset du formulaire si besoin
       form.name = ''
@@ -113,8 +113,11 @@ function submitForm() {
       form.volume = null
       router.reload({ only: ['backpack'] })
     })
-    .catch(
-     response.value = "Erreur"
-    )
+    .catch(err => {
+    if (err.response && err.response.data.message) {
+        emit('submitted', err.response.data.message);
+        response.value = err.response.data.message;
+      }
+    })
 }
 </script>
