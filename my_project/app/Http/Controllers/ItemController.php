@@ -116,9 +116,6 @@ class ItemController extends Controller
         $newWeight = $backpack->weight + $item->getWeight();
         $newVolume = $backpack->volume + $item->getVolume();
 
-        $itemData = $item->getItem();
-        $itemData['backpack_id'] = $backpack->id;
-
         // Vérif capacité
         if ($newWeight > $backpack->max_weight || $newVolume > $backpack->max_volume) {
             return response()->json([
@@ -130,21 +127,25 @@ class ItemController extends Controller
             ], 400);
         }
 
+        $itemData = $item->getItem();
+        $itemData['backpack_id'] = $backpack->id;
+
+        // Ajout de l’item
+        $newItem = $backpack->items()->create($itemData);
+
+        
+        if (!$newItem) {
+            return response()->json([
+                'message' => 'Impossible d’ajouter l’objet au sac. Valeur incorrecte'
+            ]);
+        }
+
         // Mise à jour du sac
         $backpack->update([
             'weight' => $newWeight,
             'volume' => $newVolume,
         ]);
 
-        // Ajout de l’item
-        $newItem = $backpack->items()->create($itemData);
-
-        if (!$newItem) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Impossible d’ajouter l’objet au sac. Valeur incorrecte'
-            ]);
-        }
 
         return response()->json([
             'message' => 'Objet ajouté',
