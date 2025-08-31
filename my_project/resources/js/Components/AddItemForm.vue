@@ -39,7 +39,6 @@
     <p class="text-xs text-center ">Un seul champ à remplir (ou aucun)</p>
     <p class="text-xs text-center">(Gourde = CL) , (Couteau, Briquet = Usure) , (Sac de couchage, Carte, Boussole = Rien), (Reste = Quantité)</p>
     <div class="flex gap-2 mt-2 justify-between">
-
       <input type="number" v-model.number="form.quantity" min="1" placeholder="Qté"
              :disabled="form.wear !== null || form.quantity_cl !== null"
              class="w-1/3 border px-2 py-1 text-center"/>

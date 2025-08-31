@@ -41,6 +41,7 @@ import BackpackTable from '@/Components/BackpackTable.vue'
 import axios from 'axios'
 import AddItemForm from '@/Components/AddItemForm.vue'
 import { Head } from '@inertiajs/vue3';
+
 const props = defineProps({
   backpack: Object,
 })
@@ -49,6 +50,7 @@ const props = defineProps({
 const apiResponse = ref(null)
 const loadingId = ref(null)
 
+// Fonction pour utiliser un item du sac
 function useItem(itemId, amount = 1) {
   loadingId.value = itemId
   axios.patch(`/api/item/use/${itemId}`, { amount })
@@ -62,6 +64,7 @@ function useItem(itemId, amount = 1) {
     })
 }
 
+// Fonction pour supprimer un item du sac
 function deleteItem(itemId) {
   loadingId.value = itemId
   axios.delete(`/api/item/${itemId}`)
@@ -75,6 +78,8 @@ function deleteItem(itemId) {
     })
 }
 
+
+// Fonction pour vider le sac
 function emptyBackpack(itemId) {
   loadingId.value = itemId
   axios.delete(`/api/backpack/empty/${itemId}`)
@@ -88,6 +93,7 @@ function emptyBackpack(itemId) {
     })
 }
 
+// Récupérer la réponse du AddItemForm afin de pouvoir afficher un message en fonction de ce qui se passe
 function handleResponse(data) {
   console.log(data)
   apiResponse.value = data.message
