@@ -16,6 +16,7 @@ use App\Entities\TorchKit as MateriauxTorche;
 use App\Entities\Backpack;
 use App\Models\Backpack as Sac;
 use App\Services\BackpackService;
+use App\Http\Requests\CreateBackpackRequest;
 
 use App\Models\Item;
 use Inertia\Inertia;
@@ -74,16 +75,18 @@ class BackpackController extends Controller
         return response()->json($backpack);
     }
 
-    public function create(Request $request)
+    public function create(CreateBackpackRequest $request)
     {
-        $backpackRequest = new Backpack($request->input('max_weight'), $request->input('max_volume'));
+        $data = $request->validated();
+
+        $backpackRequest = new Backpack($data['max_weight'], $data['max_volume']);
         
         $backpack = Sac::create([
             'max_weight' => $backpackRequest->getMaxWeight(),
             'max_volume' => $backpackRequest->getMaxVolume(),
         ]);
 
-        return response()->json($backpack, 201);
+        return response()->json($backpack);
     }
     
     // Ici on vide seulement le sac

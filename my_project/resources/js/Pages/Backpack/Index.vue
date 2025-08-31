@@ -1,6 +1,8 @@
 <template>
   <div>
-
+    <Head>
+      <title>Mon sac à dos</title>
+    </Head>
     <BackpackTable
       :items="backpack.items"
       :loading-id="loadingId"
@@ -38,7 +40,7 @@ import { router } from '@inertiajs/vue3'
 import BackpackTable from '@/Components/BackpackTable.vue'
 import axios from 'axios'
 import AddItemForm from '@/Components/AddItemForm.vue'
-
+import { Head } from '@inertiajs/vue3';
 const props = defineProps({
   backpack: Object,
 })

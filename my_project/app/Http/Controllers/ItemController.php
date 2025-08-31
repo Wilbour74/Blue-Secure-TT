@@ -233,34 +233,17 @@ class ItemController extends Controller
                 'quantity_cl' => $data->quantity_cl ?? null
             ]);
         }
-
-        $backpack = Sac::find($data->backpack_id);
-
-        // Si le poids ou le volume dépasse les limites du sac à dos
-        if (($data->weight > $backpack->max_weight) ||
-            ($data->volume > $backpack->max_volume)) {
-
+        
+        // Sauvegarder en base de donnée
+        $data->save();
             return response()->json([
-                'message' => 'Erreur : l\'item dépasse les limites du sac à dos',
-                'result' => $using,
-                'item' => $item->getItem(),
-                'weight' => $data->weight ?? null,
-                'volume' => $data->volume ?? null
-            ]);
-        }
-
-        // Sinon le mettre à jour en base de données
-         else{
-            $data->save();
-            return response()->json([
-                'itemId' => $data->id,
-                'message' => 'Item utilisé avec succès',
-                'result' => $using,
-                'item' => $data,
-                'quantity' => $data->quantity ?? null,
-                'wear' => $data->wear ?? null
-            ]);
-        } 
+                    'itemId' => $data->id,
+                    'message' => 'Item utilisé avec succès',
+                    'result' => $using,
+                    'item' => $data,
+                    'quantity' => $data->quantity ?? null,
+                    'wear' => $data->wear ?? null
+                ]);
     }
 
     // Supprimer un item du sac à dos
